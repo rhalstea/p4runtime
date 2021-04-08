@@ -63,7 +63,8 @@ service P4Runtime {
 //------------------------------------------------------------------------------
 message WriteRequest {
   uint64 device_id = 1;
-  uint64 role_id = 2;
+  uint64 role_id = 2 [deprecated=true];
+  string role = 6;
   Uint128 election_id = 3;
   // The write batch, comprising a list of Update operations. The P4Runtime
   // server may arbitrarily reorder messages within a batch to maximize
@@ -102,6 +103,8 @@ message WriteResponse {
 
 message ReadRequest {
   uint64 device_id = 1;
+  // When specified, only return table entries for the given role.
+  string role = 3;
   repeated Entity entities = 2;
 }
 
@@ -684,7 +687,8 @@ message SetForwardingPipelineConfigRequest {
     RECONCILE_AND_COMMIT = 5;
   }
   uint64 device_id = 1;
-  uint64 role_id = 2;
+  uint64 role_id = 2 [deprecated=true];
+  string role = 6;
   Uint128 election_id = 3;
   Action action = 4;
   ForwardingPipelineConfig config = 5;
